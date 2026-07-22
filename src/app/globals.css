@@ -75,43 +75,17 @@ h3 {
   20%, 22%, 55% { filter: drop-shadow(0 0 48px rgb(194 34 34 / 0.36)); }
 }
 
-/* ===== Campo de brasa ambiente (o site inteiro parece incandescente) ===== */
-.ember-field {
+/* ===== Fundo procedural WebGL (lava-background.tsx) ===== */
+.lava-canvas {
   position: fixed;
   inset: 0;
   z-index: -1;
-  overflow: hidden;
   pointer-events: none;
 }
-.ember-field span {
-  position: absolute;
-  border-radius: 9999px;
-  transform: translate(-50%, -50%);
-  filter: blur(56px);
-  background: radial-gradient(circle, rgb(255 90 31 / 0.75), rgb(194 34 34 / 0.4) 50%, transparent 72%);
-  animation: ember-breathe var(--ember-dur, 10s) ease-in-out infinite;
-  animation-delay: var(--ember-delay, 0s);
-  mix-blend-mode: screen;
-}
-@keyframes ember-breathe {
-  0%, 100% { opacity: 0.38; transform: translate(-50%, -50%) scale(0.85) translateY(0); }
-  50% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.35) translateY(-1.5rem); }
-}
-
-/* ===== Piso de lava (brilho fixo na base da tela, sempre visível) ===== */
-.lava-floor {
-  position: fixed;
-  inset: auto 0 0 0;
-  height: 46vh;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(120% 100% at 50% 100%, rgb(255 90 31 / 0.55), rgb(194 34 34 / 0.32) 45%, transparent 78%);
-  mix-blend-mode: screen;
-  animation: lava-floor-pulse 5s ease-in-out infinite;
-}
-@keyframes lava-floor-pulse {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+.lava-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* ===== Costura de lava entre capítulos ===== */

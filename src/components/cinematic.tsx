@@ -5,7 +5,15 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+
+// Three.js/R3F pesa ~1.2MB — carrega à parte, depois da hidratação, pra não
+// travar o primeiro paint. É puramente decorativo (aria-hidden), então SSR
+// não faz falta.
+const LavaBackground = dynamic(() => import("./lava-background").then((m) => m.LavaBackground), {
+  ssr: false,
+});
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
@@ -184,22 +192,7 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
 
   return (
     <div ref={root}>
-      <div aria-hidden className="ember-field">
-        {EMBERS.map((e, i) => (
-          <span
-            key={i}
-            style={{
-              top: e.top,
-              left: e.left,
-              width: e.size,
-              height: e.size,
-              ["--ember-dur" as string]: e.dur,
-              ["--ember-delay" as string]: e.delay,
-            }}
-          />
-        ))}
-      </div>
-      <div aria-hidden className="lava-floor" />
+      <LavaBackground />
       <div data-progress aria-hidden className="scroll-progress" />
       <div ref={dot} aria-hidden className="cursor-dot" />
       <div ref={ring} aria-hidden className="cursor-ring" />
@@ -225,16 +218,6 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-const EMBERS = [
-  { top: "4%", left: "10%", size: "34rem", dur: "9s", delay: "0s" },
-  { top: "16%", left: "90%", size: "38rem", dur: "11s", delay: "2.5s" },
-  { top: "42%", left: "0%", size: "32rem", dur: "8s", delay: "4.5s" },
-  { top: "50%", left: "100%", size: "36rem", dur: "10s", delay: "1s" },
-  { top: "68%", left: "50%", size: "30rem", dur: "7.5s", delay: "3s" },
-  { top: "86%", left: "22%", size: "40rem", dur: "12s", delay: "5.5s" },
-  { top: "94%", left: "78%", size: "34rem", dur: "9.5s", delay: "2s" },
-];
 
 const ASHES = [
   { left: "6%", size: 3, dur: "17s", delay: "0s", drift: "5vw", peak: 0.55 },
