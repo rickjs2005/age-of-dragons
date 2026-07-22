@@ -184,6 +184,21 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
 
   return (
     <div ref={root}>
+      <div aria-hidden className="ember-field">
+        {EMBERS.map((e, i) => (
+          <span
+            key={i}
+            style={{
+              top: e.top,
+              left: e.left,
+              width: e.size,
+              height: e.size,
+              ["--ember-dur" as string]: e.dur,
+              ["--ember-delay" as string]: e.delay,
+            }}
+          />
+        ))}
+      </div>
       <div data-progress aria-hidden className="scroll-progress" />
       <div ref={dot} aria-hidden className="cursor-dot" />
       <div ref={ring} aria-hidden className="cursor-ring" />
@@ -209,6 +224,15 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+const EMBERS = [
+  { top: "6%", left: "12%", size: "26rem", dur: "11s", delay: "0s" },
+  { top: "18%", left: "88%", size: "30rem", dur: "13s", delay: "3s" },
+  { top: "48%", left: "4%", size: "24rem", dur: "9s", delay: "5s" },
+  { top: "62%", left: "94%", size: "28rem", dur: "12s", delay: "1.5s" },
+  { top: "88%", left: "30%", size: "32rem", dur: "14s", delay: "6s" },
+  { top: "96%", left: "70%", size: "26rem", dur: "10s", delay: "4s" },
+];
 
 const ASHES = [
   { left: "6%", size: 3, dur: "17s", delay: "0s", drift: "5vw", peak: 0.55 },

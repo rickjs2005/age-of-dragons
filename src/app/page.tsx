@@ -182,7 +182,7 @@ export default function Home() {
         </section>
 
         {/* ===== 2 · Dragões mais famosos da ficção ===== */}
-        <section className="relative border-y border-gold/10 bg-abyss-2/50 py-32">
+        <section className="lava-seam relative border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-7xl px-6 sm:px-10">
             <div className="chapter-mark" data-reveal aria-hidden />
             <p className="eyebrow" data-reveal>
@@ -237,7 +237,7 @@ export default function Home() {
         </section>
 
         {/* ===== 4 · Linha do tempo horizontal ===== */}
-        <section id="timeline-pin" className="relative overflow-hidden border-y border-gold/10 bg-abyss-2/40">
+        <section id="timeline-pin" className="lava-seam relative overflow-hidden border-y border-gold/10 bg-abyss-2/40">
           <div className="flex h-screen flex-col justify-center">
             <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">
               <div className="chapter-mark" aria-hidden />
@@ -289,7 +289,7 @@ export default function Home() {
         </section>
 
         {/* ===== 6 · Comparação ===== */}
-        <section className="border-y border-gold/10 bg-abyss-2/50 py-32">
+        <section className="lava-seam border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-6xl px-6 sm:px-10">
             <div className="chapter-mark" data-reveal aria-hidden />
             <p className="eyebrow" data-reveal>
@@ -353,7 +353,7 @@ export default function Home() {
         </section>
 
         {/* ===== 8 · Curiosidades ===== */}
-        <section className="border-y border-gold/10 bg-abyss-2/50 py-32">
+        <section className="lava-seam border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-6xl px-6 sm:px-10">
             <div className="chapter-mark" data-reveal aria-hidden />
             <p className="eyebrow" data-reveal>
@@ -396,7 +396,7 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-gold/10 px-6 py-12 text-center">
+        <footer className="lava-seam border-t border-gold/10 px-6 py-12 text-center">
           <p className="museum-caption">
             The Age of Dragons — experiência-conceito por{" "}
             <a href="https://milweb.com.br" className="text-gold-soft underline-offset-4 hover:underline">
