@@ -24,7 +24,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
  * - Parallax de scroll: [data-parallax="0.2"] desliza na rolagem
  * - Cards 3D: [data-tilt] inclinam ao mouse + luz vermelha seguindo (--mx/--my)
  * - Seção horizontal: #timeline-track pinada e scrubada
- * - Cursor custom + cinzas + relâmpago ocasional
+ * - Cinzas + relâmpago ocasional
  */
 export function Cinematic({ children }: { children: React.ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
@@ -167,35 +167,10 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
     { scope: root },
   );
 
-  // cursor custom
-  const dot = useRef<HTMLDivElement>(null);
-  const ring = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!window.matchMedia("(pointer: fine)").matches) return;
-    const dotEl = dot.current!;
-    const ringEl = ring.current!;
-    const dx = gsap.quickTo(dotEl, "x", { duration: 0.08 });
-    const dy = gsap.quickTo(dotEl, "y", { duration: 0.08 });
-    const rx = gsap.quickTo(ringEl, "x", { duration: 0.35, ease: "power3" });
-    const ry = gsap.quickTo(ringEl, "y", { duration: 0.35, ease: "power3" });
-    const move = (e: PointerEvent) => {
-      dx(e.clientX);
-      dy(e.clientY);
-      rx(e.clientX);
-      ry(e.clientY);
-      const interactive = (e.target as HTMLElement).closest("a, button, [data-tilt]");
-      ringEl.classList.toggle("is-hover", Boolean(interactive));
-    };
-    window.addEventListener("pointermove", move, { passive: true });
-    return () => window.removeEventListener("pointermove", move);
-  }, []);
-
   return (
     <div ref={root}>
       <LavaBackground />
       <div data-progress aria-hidden className="scroll-progress" />
-      <div ref={dot} aria-hidden className="cursor-dot" />
-      <div ref={ring} aria-hidden className="cursor-ring" />
       <div key={flash} aria-hidden className={`lightning ${flash > 0 ? "flash" : ""}`} />
       {/* cinzas globais */}
       {ASHES.map((a, i) => (

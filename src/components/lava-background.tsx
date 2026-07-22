@@ -1,6 +1,6 @@
 "use client";
 
-import { shaderMaterial } from "@react-three/drei";
+import { PerformanceMonitor, shaderMaterial } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -43,7 +43,7 @@ const NOISE_GLSL = /* glsl */ `
     float sum = 0.0;
     float amp = 0.5;
     float freq = 1.0;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
       sum += amp * snoise(p * freq);
       freq *= 2.05;
       amp *= 0.52;
@@ -321,7 +321,7 @@ function Scene({ isMobile }: { isMobile: boolean }) {
     <>
       <LavaPlane intensityRef={intensityRef} mouseRef={mouseRef} />
       <ParticleField
-        count={isMobile ? 320 : 1100}
+        count={isMobile ? 220 : 750}
         colorA="#ff4500"
         colorB="#ffd15c"
         sizeRange={[3, 9]}
@@ -332,7 +332,7 @@ function Scene({ isMobile }: { isMobile: boolean }) {
       />
       {!isMobile && (
         <ParticleField
-          count={36}
+          count={22}
           colorA="#120000"
           colorB="#2a0000"
           sizeRange={[90, 170]}
@@ -354,10 +354,13 @@ function Scene({ isMobile }: { isMobile: boolean }) {
 export function LavaBackground() {
   const [enabled, setEnabled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [dpr, setDpr] = useState(1);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setIsMobile(window.innerWidth < 820 || !window.matchMedia("(pointer: fine)").matches);
+    const mobile = window.innerWidth < 820 || !window.matchMedia("(pointer: fine)").matches;
+    setIsMobile(mobile);
+    setDpr(mobile ? 1 : Math.min(window.devicePixelRatio, 1.4));
     setEnabled(!reduce);
   }, []);
 
@@ -366,10 +369,15 @@ export function LavaBackground() {
   return (
     <div aria-hidden className="lava-canvas">
       <Canvas
-        dpr={isMobile ? 1 : [1, 1.5]}
+        dpr={dpr}
         gl={{ antialias: false, powerPreference: "high-performance", alpha: false }}
         camera={{ position: [0, 0, 5], fov: 55 }}
       >
+        {/* Se o FPS cair, reduz a resolução interna antes de cortar efeitos */}
+        <PerformanceMonitor
+          factor={1}
+          onDecline={() => setDpr((d) => Math.max(0.7, d - 0.25))}
+        />
         <Scene isMobile={isMobile} />
       </Canvas>
     </div>

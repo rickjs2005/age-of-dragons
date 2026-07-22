@@ -29,12 +29,6 @@ body {
     radial-gradient(55rem 38rem at 50% 100%, rgb(255 90 31 / 0.2), transparent 60%),
     radial-gradient(40rem 30rem at 100% 55%, rgb(201 162 39 / 0.14), transparent 55%),
     var(--color-abyss);
-  cursor: none; /* cursor custom */
-}
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
 }
 
 h1,
@@ -42,6 +36,18 @@ h2,
 h3 {
   font-family: var(--font-display);
   letter-spacing: 0.03em;
+  text-shadow: 0 2px 16px rgb(0 0 0 / 0.55);
+}
+
+/* Legibilidade sobre o fundo em chamas */
+p,
+.eyebrow,
+figcaption,
+td,
+th,
+dd,
+dt {
+  text-shadow: 0 1px 10px rgb(0 0 0 / 0.5);
 }
 
 .serif {
@@ -86,6 +92,14 @@ h3 {
   display: block;
   width: 100% !important;
   height: 100% !important;
+}
+/* véu escuro por cima do shader — garante contraste de texto em qualquer seção */
+.lava-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(4 3 3 / 0.42);
+  pointer-events: none;
 }
 
 /* ===== Costura de lava entre capítulos ===== */
@@ -144,63 +158,19 @@ h3 {
   animation: cue-pulse 1.8s ease-in-out infinite;
 }
 
-/* Marca ornamental de capítulo */
+/* Marca ornamental de capítulo: núcleo em losango com asas de dragão abrindo */
 .chapter-mark {
-  position: relative;
-  width: 3rem;
-  height: 10px;
+  display: inline-block;
   margin-bottom: 1.1rem;
-  background: linear-gradient(90deg, transparent, rgb(194 34 34 / 0.7) 50%, transparent);
 }
-.chapter-mark::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: var(--color-gold);
+.chapter-mark-core {
+  transform-box: fill-box;
+  transform-origin: center;
   animation: chapter-ember 2.6s ease-in-out infinite;
 }
 @keyframes chapter-ember {
-  0%, 100% { box-shadow: 0 0 8px rgb(201 162 39 / 0.8); }
-  50% { box-shadow: 0 0 16px rgb(194 34 34 / 0.9); }
-}
-
-/* ===== Cursor custom (brasa) ===== */
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 90;
-  pointer-events: none;
-  border-radius: 9999px;
-  transform: translate(-50%, -50%);
-}
-.cursor-dot {
-  width: 6px;
-  height: 6px;
-  background: var(--color-gold-soft);
-  box-shadow: 0 0 12px rgb(201 162 39 / 0.9);
-}
-.cursor-ring {
-  width: 34px;
-  height: 34px;
-  border: 1px solid rgb(201 162 39 / 0.4);
-  transition: width 0.25s, height 0.25s, border-color 0.25s;
-}
-.cursor-ring.is-hover {
-  width: 56px;
-  height: 56px;
-  border-color: rgb(194 34 34 / 0.8);
-}
-@media (pointer: coarse) {
-  .cursor-dot,
-  .cursor-ring {
-    display: none;
-  }
+  0%, 100% { filter: drop-shadow(0 0 5px rgb(226 199 106 / 0.95)); }
+  50% { filter: drop-shadow(0 0 11px rgb(255 122 61 / 1)); }
 }
 
 /* ===== Cinzas flutuando ===== */

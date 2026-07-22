@@ -83,6 +83,51 @@ const GLYPH_EYE: Array<[number, number]> = [
   [66, 14],
 ];
 
+function ChapterMark({ reveal = true }: { reveal?: boolean }) {
+  return (
+    <div className="chapter-mark" aria-hidden {...(reveal ? { "data-reveal": true } : {})}>
+      <svg viewBox="0 0 64 20" className="h-4 w-20" fill="none">
+        <path
+          d="M1 10 Q16 1.5 28.5 9.5"
+          stroke="#ff7a3d"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M1 10 Q16 18.5 28.5 10.5"
+          stroke="#ff7a3d"
+          strokeOpacity="0.55"
+          strokeWidth="1.3"
+          strokeLinecap="round"
+        />
+        <path
+          d="M63 10 Q48 1.5 35.5 9.5"
+          stroke="#ff7a3d"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M63 10 Q48 18.5 35.5 10.5"
+          stroke="#ff7a3d"
+          strokeOpacity="0.55"
+          strokeWidth="1.3"
+          strokeLinecap="round"
+        />
+        <rect
+          className="chapter-mark-core"
+          x="27.5"
+          y="5.5"
+          width="9"
+          height="9"
+          rx="1.4"
+          transform="rotate(45 32 10)"
+          fill="var(--color-gold-soft)"
+        />
+      </svg>
+    </div>
+  );
+}
+
 function DragonGlyph({ color, variant }: { color: string; variant: number }) {
   const i = variant % GLYPH_PATHS.length;
   const [ex, ey] = GLYPH_EYE[i];
@@ -138,7 +183,7 @@ export default function Home() {
 
         {/* ===== 1 · O nascimento dos dragões ===== */}
         <section id="eras" className="relative mx-auto max-w-6xl px-6 py-32 sm:px-10">
-          <div className="chapter-mark" data-reveal aria-hidden />
+          <ChapterMark />
           <p className="eyebrow" data-reveal>
             Capítulo I · O nascimento
           </p>
@@ -185,7 +230,7 @@ export default function Home() {
         {/* ===== 2 · Dragões mais famosos da ficção ===== */}
         <section className="lava-seam relative border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-7xl px-6 sm:px-10">
-            <div className="chapter-mark" data-reveal aria-hidden />
+            <ChapterMark />
             <p className="eyebrow" data-reveal>
               Capítulo II · Os lendários
             </p>
@@ -222,7 +267,7 @@ export default function Home() {
 
         {/* ===== 3 · Mapa das lendas ===== */}
         <section className="mx-auto max-w-6xl px-6 py-32 sm:px-10">
-          <div className="chapter-mark" data-reveal aria-hidden />
+          <ChapterMark />
           <p className="eyebrow" data-reveal>
             Capítulo III · O mapa
           </p>
@@ -241,7 +286,7 @@ export default function Home() {
         <section id="timeline-pin" className="lava-seam relative overflow-hidden border-y border-gold/10 bg-abyss-2/40">
           <div className="flex h-screen flex-col justify-center">
             <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">
-              <div className="chapter-mark" aria-hidden />
+              <ChapterMark reveal={false} />
               <p className="eyebrow">Capítulo IV · A travessia</p>
               <h2 className="mt-3 text-3xl font-bold text-bone sm:text-5xl">
                 Quatro mil anos em um voo.
@@ -270,7 +315,7 @@ export default function Home() {
 
         {/* ===== 5 · Galeria ===== */}
         <section className="mx-auto max-w-7xl px-6 py-32 sm:px-10">
-          <div className="chapter-mark" data-reveal aria-hidden />
+          <ChapterMark />
           <p className="eyebrow" data-reveal>
             Capítulo V · A galeria
           </p>
@@ -304,7 +349,7 @@ export default function Home() {
         {/* ===== 6 · Comparação ===== */}
         <section className="lava-seam border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-6xl px-6 sm:px-10">
-            <div className="chapter-mark" data-reveal aria-hidden />
+            <ChapterMark />
             <p className="eyebrow" data-reveal>
               Capítulo VI · O confronto
             </p>
@@ -346,7 +391,7 @@ export default function Home() {
 
         {/* ===== 7 · Dragões no cinema ===== */}
         <section className="mx-auto max-w-4xl px-6 py-32 sm:px-10">
-          <div className="chapter-mark" data-reveal aria-hidden />
+          <ChapterMark />
           <p className="eyebrow" data-reveal>
             Capítulo VII · As telas
           </p>
@@ -368,7 +413,7 @@ export default function Home() {
         {/* ===== 8 · Curiosidades ===== */}
         <section className="lava-seam border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-6xl px-6 sm:px-10">
-            <div className="chapter-mark" data-reveal aria-hidden />
+            <ChapterMark />
             <p className="eyebrow" data-reveal>
               Capítulo VIII · Segredos
             </p>
