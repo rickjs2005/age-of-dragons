@@ -1,26 +1,260 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ===== THE AGE OF DRAGONS — biblioteca proibida ===== */
+@theme {
+  --color-abyss: #090909; /* preto profundo */
+  --color-abyss-2: #121110;
+  --color-fire: #8b0000; /* vermelho fogo */
+  --color-fire-bright: #c22222;
+  --color-gold: #c9a227; /* dourado antigo */
+  --color-gold-soft: #e2c76a;
+  --color-stone: #8d8a84; /* cinza pedra */
+  --color-bone: #f5f2ec; /* branco de texto */
+
+  --font-display: var(--font-display), Georgia, serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background:
+    radial-gradient(80rem 50rem at 85% -10%, rgb(139 0 0 / 0.08), transparent 60%),
+    radial-gradient(60rem 40rem at 0% 100%, rgb(201 162 39 / 0.05), transparent 55%),
+    var(--color-abyss);
+  cursor: none; /* cursor custom */
+}
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+}
+
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* Rótulo de capítulo */
+.eyebrow {
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: var(--color-gold);
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(201 162 39 / 0.85), transparent);
+}
+
+/* Título com ouro velho por dentro */
+.gilded {
+  background: linear-gradient(180deg, var(--color-bone) 25%, var(--color-gold-soft) 60%, var(--color-gold) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 30px rgb(9 9 9 / 0.8);
+  filter: drop-shadow(0 0 34px rgb(201 162 39 / 0.18));
+}
+
+/* Grão de filme */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== Cursor custom (brasa) ===== */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-gold-soft);
+  box-shadow: 0 0 12px rgb(201 162 39 / 0.9);
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgb(201 162 39 / 0.4);
+  transition: width 0.25s, height 0.25s, border-color 0.25s;
+}
+.cursor-ring.is-hover {
+  width: 56px;
+  height: 56px;
+  border-color: rgb(194 34 34 / 0.8);
+}
+@media (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* ===== Cinzas flutuando ===== */
+@keyframes ash-rise {
+  0% { transform: translate3d(0, 12vh, 0) rotate(0deg); opacity: 0; }
+  12% { opacity: var(--ash-peak, 0.6); }
+  70% { opacity: calc(var(--ash-peak, 0.6) * 0.5); }
+  100% { transform: translate3d(var(--ash-drift, 4vw), -110vh, 0) rotate(220deg); opacity: 0; }
+}
+.ash {
+  position: fixed;
+  bottom: 0;
+  z-index: 30;
+  pointer-events: none;
+  background: radial-gradient(circle, rgb(226 199 106 / 0.95), rgb(139 0 0 / 0.5));
+  border-radius: 2px;
+  animation: ash-rise var(--ash-dur, 16s) linear infinite;
+  animation-delay: var(--ash-delay, 0s);
+}
+
+/* ===== Relâmpago ocasional ===== */
+.lightning {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 0%, rgb(245 242 236 / 0.9), rgb(139 0 0 / 0.15) 55%, transparent 75%);
+  opacity: 0;
+}
+.lightning.flash {
+  animation: flash 0.65s ease-out;
+}
+@keyframes flash {
+  0% { opacity: 0; }
+  8% { opacity: 0.5; }
+  16% { opacity: 0.08; }
+  28% { opacity: 0.32; }
+  100% { opacity: 0; }
+}
+
+/* ===== Fumaça em deriva ===== */
+@keyframes smoke-drift {
+  from { transform: translateX(-8%) scale(1); }
+  to { transform: translateX(8%) scale(1.15); }
+}
+.smoke {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(141 138 132 / 0.14), transparent 70%);
+  filter: blur(30px);
+  animation: smoke-drift var(--smoke-dur, 18s) ease-in-out infinite alternate;
+}
+
+/* ===== Cards premium (glass + luz vermelha + 3D) ===== */
+.card-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+  background: linear-gradient(160deg, rgb(18 17 16 / 0.9), rgb(9 9 9 / 0.95));
+  border: 1px solid rgb(201 162 39 / 0.16);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+.card-3d::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(38rem 20rem at var(--mx, 50%) var(--my, 0%), rgb(139 0 0 / 0.22), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.card-3d:hover::before {
+  opacity: 1;
+}
+.card-3d:hover {
+  border-color: rgb(194 34 34 / 0.5);
+}
+
+/* Moldura de museu */
+.museum-frame {
+  border: 1px solid rgb(245 242 236 / 0.13);
+  background: var(--color-abyss-2);
+  padding: 0.85rem;
+  box-shadow: 0 26px 70px -30px rgb(0 0 0 / 0.95);
+}
+.museum-caption {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+}
+
+/* Galeria: zoom cinematográfico */
+.gallery-card img {
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), filter 1.2s;
+}
+.gallery-card:hover img {
+  transform: scale(1.07);
+  filter: brightness(1.08);
+}
+.gallery-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 60% at 50% 100%, rgb(139 0 0 / 0.25), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.8s;
+  pointer-events: none;
+}
+.gallery-card:hover::after {
+  opacity: 1;
+}
+
+/* Asa da silhueta final batendo devagar */
+@keyframes wing-beat {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-7deg); }
+}
+.wing-l {
+  transform-origin: 92% 60%;
+  animation: wing-beat 7s ease-in-out infinite;
+}
+.wing-r {
+  transform-origin: 8% 60%;
+  animation: wing-beat 7s ease-in-out infinite reverse;
+}
+
+/* Pin do mapa */
+@keyframes pin-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(201 162 39 / 0.5); }
+  50% { box-shadow: 0 0 0 12px rgb(201 162 39 / 0); }
+}
+.map-pin {
+  animation: pin-pulse 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
