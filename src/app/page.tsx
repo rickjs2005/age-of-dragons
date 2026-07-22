@@ -61,6 +61,7 @@ const GALLERY = [
   { src: "/art/apocalipse.webp", alt: "O Dragão de Sete Cabeças — Dürer, 1498", label: "Dürer · Apocalipse · 1498" },
   { src: "/art/nove-dragoes.webp", alt: "Nove Dragões — Chen Rong, 1244", label: "Chen Rong · 1244" },
   { src: "/art/vortigern.webp", alt: "Os dragões de Vortigern — manuscrito medieval", label: "Vortigern · séc. XV" },
+  { src: "/art/devorador.webp", alt: "O devorador ancestral emerge das chamas diante de uma silhueta solitária", label: "O Devorador Ancestral · arte conceitual" },
 ];
 
 /* ===================== MARCAS/SVG ===================== */
@@ -277,14 +278,26 @@ export default function Home() {
             O acervo proibido.
           </h2>
           <div className="mt-14 grid gap-8 md:grid-cols-2">
-            {GALLERY.map((item) => (
-              <figure key={item.src} data-reveal className="gallery-card group relative overflow-hidden rounded-2xl border border-gold/15">
-                <img src={item.src} alt={item.alt} loading="lazy" className="h-[420px] w-full object-cover" />
-                <figcaption className="museum-caption absolute bottom-0 left-0 z-10 w-full bg-gradient-to-t from-abyss via-abyss/60 to-transparent p-5 pt-14">
-                  {item.label}
-                </figcaption>
-              </figure>
-            ))}
+            {GALLERY.map((item, i) => {
+              const isLast = i === GALLERY.length - 1;
+              return (
+                <figure
+                  key={item.src}
+                  data-reveal
+                  className={`gallery-card group relative overflow-hidden rounded-2xl border border-gold/15 ${isLast ? "md:col-span-2" : ""}`}
+                >
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    className={`w-full object-cover ${isLast ? "h-[520px]" : "h-[420px]"}`}
+                  />
+                  <figcaption className="museum-caption absolute bottom-0 left-0 z-10 w-full bg-gradient-to-t from-abyss via-abyss/60 to-transparent p-5 pt-14">
+                    {item.label}
+                  </figcaption>
+                </figure>
+              );
+            })}
           </div>
         </section>
 
