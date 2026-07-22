@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import { DURATION, EASE } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,34 +28,34 @@ export function Hero() {
       if (!reduce) {
         gsap
           .timeline({ delay: 0.15 })
-          .fromTo(video, { scale: 1.16, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 2.2, ease: "power2.out" })
+          .fromTo(video, { scale: 1.16, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: DURATION.heroVideo, ease: EASE.soft })
           .fromTo(
             "[data-hero-in]",
             { autoAlpha: 0, y: 34 },
-            { autoAlpha: 1, y: 0, duration: 1.1, stagger: 0.14, ease: "power3.out" },
+            { autoAlpha: 1, y: 0, duration: DURATION.heroCascade, stagger: DURATION.heroCascadeStagger, ease: EASE.reveal },
             0.5,
           )
-          .fromTo("[data-hero-cue]", { autoAlpha: 0 }, { autoAlpha: 1, duration: 1 }, 1.7);
+          .fromTo("[data-hero-cue]", { autoAlpha: 0 }, { autoAlpha: 1, duration: DURATION.heroCue }, 1.7);
 
         gsap.to(video, {
           scale: 1.18,
-          ease: "none",
+          ease: EASE.linear,
           scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true },
         });
         gsap.to("[data-hero-exit]", {
           yPercent: -22,
           autoAlpha: 0,
-          ease: "none",
+          ease: EASE.linear,
           scrollTrigger: { trigger: el, start: "top top", end: "65% top", scrub: true },
         });
         gsap.to("[data-hero-cue]", {
           autoAlpha: 0,
-          ease: "none",
+          ease: EASE.linear,
           scrollTrigger: { trigger: el, start: "top top", end: "12% top", scrub: true },
         });
         gsap.to("[data-hero-vignette]", {
           opacity: 1,
-          ease: "none",
+          ease: EASE.linear,
           scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true },
         });
       } else {
@@ -64,8 +65,8 @@ export function Hero() {
       if (!window.matchMedia("(pointer: fine)").matches) return;
       const layers = Array.from(el.querySelectorAll<HTMLElement>("[data-depth]")).map((layer) => ({
         depth: parseFloat(layer.dataset.depth ?? "0"),
-        x: gsap.quickTo(layer, "x", { duration: 0.9, ease: "power3" }),
-        y: gsap.quickTo(layer, "y", { duration: 0.9, ease: "power3" }),
+        x: gsap.quickTo(layer, "x", { duration: DURATION.parallaxPointer, ease: "power3" }),
+        y: gsap.quickTo(layer, "y", { duration: DURATION.parallaxPointer, ease: "power3" }),
       }));
       const move = (e: PointerEvent) => {
         const dx = e.clientX / window.innerWidth - 0.5;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 
 /**
  * Mapa das lendas: carta antiga estilizada (grade de coordenadas + rosa dos
@@ -19,6 +19,7 @@ const LEGENDS = [
 
 export function WorldMap() {
   const [selected, setSelected] = useState<(typeof LEGENDS)[number] | null>(null);
+  const panelId = useId();
 
   return (
     <div className="relative">
@@ -58,6 +59,8 @@ export function WorldMap() {
             className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
             style={{ left: `${legend.x}%`, top: `${legend.y}%` }}
             aria-label={`Lenda: ${legend.region}`}
+            aria-expanded={selected?.id === legend.id}
+            aria-controls={panelId}
           >
             <span className="map-pin block h-3.5 w-3.5 rounded-full border border-gold bg-fire shadow-[0_0_14px_rgb(139_0_0/0.9)] transition-transform group-hover:scale-125" />
             <span className="eyebrow absolute top-full left-1/2 mt-2 -translate-x-1/2 whitespace-nowrap text-[9px] opacity-70">
@@ -68,7 +71,7 @@ export function WorldMap() {
       </div>
 
       {selected && (
-        <div className="card-3d mx-auto mt-6 max-w-2xl rounded-xl p-7 text-left" data-reveal>
+        <div id={panelId} tabIndex={-1} className="card-3d mx-auto mt-6 max-w-2xl rounded-xl p-7 text-left" data-reveal>
           <p className="eyebrow">{selected.region}</p>
           <h3 className="mt-2 text-2xl font-bold text-bone">{selected.title}</h3>
           <p className="serif mt-3 text-lg leading-relaxed text-stone">{selected.text}</p>

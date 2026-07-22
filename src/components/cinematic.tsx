@@ -7,6 +7,8 @@ import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+import { DURATION, EASE } from "@/lib/motion";
+import { ChapterProgress } from "./chapter-progress";
 
 // Three.js/R3F pesa ~1.2MB — carrega à parte, depois da hidratação, pra não
 // travar o primeiro paint. É puramente decorativo (aria-hidden), então SSR
@@ -90,8 +92,8 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
           {
             autoAlpha: 1,
             y: 0,
-            duration: 1.1,
-            ease: "power3.out",
+            duration: DURATION.reveal,
+            ease: EASE.reveal,
             scrollTrigger: { trigger: item, start: "top 86%", toggleActions: "play none none none" },
           },
         );
@@ -102,9 +104,9 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
         const split = SplitText.create(item, { type: "chars", mask: "chars", aria: "none" });
         gsap.from(split.chars, {
           yPercent: 110,
-          stagger: 0.018,
-          duration: 0.8,
-          ease: "power4.out",
+          stagger: DURATION.charsStagger,
+          duration: DURATION.chars,
+          ease: EASE.snap,
           scrollTrigger: { trigger: item, start: "top 85%", toggleActions: "play none none none" },
         });
       });
@@ -114,7 +116,7 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
         const depth = parseFloat(item.dataset.parallax ?? "0.2");
         gsap.to(item, {
           yPercent: -depth * 100,
-          ease: "none",
+          ease: EASE.linear,
           scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true },
         });
       });
@@ -126,7 +128,7 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
         const distance = () => track.scrollWidth - window.innerWidth;
         gsap.to(track, {
           x: () => -distance(),
-          ease: "none",
+          ease: EASE.linear,
           scrollTrigger: {
             trigger: pinWrap,
             start: "top top",
@@ -141,8 +143,8 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
       // Tilt 3D + luz seguindo o mouse
       if (fine) {
         el.querySelectorAll<HTMLElement>("[data-tilt]").forEach((card) => {
-          const rx = gsap.quickTo(card, "rotationX", { duration: 0.5, ease: "power3" });
-          const ry = gsap.quickTo(card, "rotationY", { duration: 0.5, ease: "power3" });
+          const rx = gsap.quickTo(card, "rotationX", { duration: DURATION.tilt, ease: "power3" });
+          const ry = gsap.quickTo(card, "rotationY", { duration: DURATION.tilt, ease: "power3" });
           gsap.set(card, { transformPerspective: 800 });
           card.addEventListener("mousemove", (e) => {
             const r = card.getBoundingClientRect();
@@ -171,6 +173,7 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
     <div ref={root}>
       <LavaBackground />
       <div data-progress aria-hidden className="scroll-progress" />
+      <ChapterProgress />
       <div key={flash} aria-hidden className={`lightning ${flash > 0 ? "flash" : ""}`} />
       {/* cinzas globais */}
       {ASHES.map((a, i) => (

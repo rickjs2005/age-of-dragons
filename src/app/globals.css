@@ -9,7 +9,7 @@
   --color-gold: #c9a227; /* dourado antigo */
   --color-gold-soft: #e2c76a;
   --color-lava: #ff5a1f; /* laranja de magma, só pro fundo incandescente */
-  --color-stone: #8d8a84; /* cinza pedra */
+  --color-stone: #b0ada7; /* cinza pedra — claro o bastante pra AA (4.5:1) sobre --color-abyss */
   --color-bone: #f5f2ec; /* branco de texto */
 
   --font-display: var(--font-display), Georgia, serif;
@@ -29,6 +29,14 @@ body {
     radial-gradient(55rem 38rem at 50% 100%, rgb(255 90 31 / 0.2), transparent 60%),
     radial-gradient(40rem 30rem at 100% 55%, rgb(201 162 39 / 0.14), transparent 55%),
     var(--color-abyss);
+}
+
+/* Estado de foco visível — antes não existia em nenhum lugar do site,
+   deixando toda a navegação por teclado sem indicação. */
+:focus-visible {
+  outline: 2px solid var(--color-gold-soft);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 h1,
@@ -320,6 +328,167 @@ dt {
 }
 .map-pin {
   animation: pin-pulse 2.6s ease-in-out infinite;
+}
+
+/* ===== Navegação de capítulos (visível em qualquer largura — antes só
+   existia um link escondido abaixo do breakpoint sm) ===== */
+.chapter-nav-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 9999px;
+  border: 1px solid rgb(201 162 39 / 0.4);
+  background: rgb(9 9 9 / 0.6);
+  padding: 0.5rem 1.1rem 0.5rem 0.85rem;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold-soft);
+  backdrop-filter: blur(6px);
+  transition: background-color 0.25s, color 0.25s;
+}
+.chapter-nav-trigger:hover {
+  background: var(--color-gold);
+  color: var(--color-abyss);
+}
+.chapter-nav-icon {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 14px;
+}
+.chapter-nav-icon span {
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.chapter-nav-icon[data-open="true"] span:nth-child(1) { transform: translateY(4.5px) rotate(45deg); }
+.chapter-nav-icon[data-open="true"] span:nth-child(2) { opacity: 0; }
+.chapter-nav-icon[data-open="true"] span:nth-child(3) { transform: translateY(-4.5px) rotate(-45deg); }
+
+.chapter-nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: rgb(4 3 3 / 0.6);
+  border: none;
+  cursor: default;
+}
+.chapter-nav-panel {
+  position: fixed;
+  top: 74px;
+  right: 16px;
+  z-index: 46;
+  width: min(320px, calc(100vw - 32px));
+  background: var(--color-abyss-2);
+  border: 1px solid rgb(201 162 39 / 0.3);
+  box-shadow: 0 30px 70px -20px rgb(0 0 0 / 0.9);
+  padding: 10px;
+}
+.chapter-nav-panel ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.chapter-nav-panel a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 10px;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--color-bone);
+  border-bottom: 1px solid rgb(236 231 220 / 0.08);
+  transition: color 0.2s;
+}
+.chapter-nav-panel li:last-child a { border-bottom: none; }
+.chapter-nav-panel a:hover { color: var(--color-gold-soft); }
+.chapter-nav-numeral {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--color-gold);
+  min-width: 1.6em;
+}
+
+/* ===== Indicador "Capítulo N/VIII" — a moldura de documentário existia só
+   na copy; agora existe também na interface. ===== */
+.chapter-progress {
+  position: fixed;
+  right: 20px;
+  bottom: 22px;
+  z-index: 40;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.chapter-progress[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chapter-progress-count {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-gold-soft);
+}
+.chapter-progress-total {
+  font-size: 0.7rem;
+  color: var(--color-stone);
+  margin-left: 1px;
+}
+.chapter-progress-label {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-stone);
+  border-left: 1px solid rgb(201 162 39 / 0.35);
+  padding-left: 9px;
+}
+@media (max-width: 640px) {
+  .chapter-progress { display: none; }
+}
+
+/* ===== Timeline horizontal: affordance de arraste em touch ===== */
+.timeline-track {
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.timeline-track > article {
+  scroll-snap-align: center;
+}
+.timeline-drag-hint {
+  display: none;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-gold-soft);
+}
+@media (pointer: coarse) {
+  .timeline-drag-hint {
+    display: inline-flex;
+    animation: drag-hint-nudge 1.6s ease-in-out infinite;
+  }
+}
+@keyframes drag-hint-nudge {
+  0%, 100% { transform: translateX(0); opacity: 0.7; }
+  50% { transform: translateX(6px); opacity: 1; }
+}
+
+/* ===== Temperatura por era — antes as sete civilizações (climas e lendas
+   bem diferentes) recebiam a mesma luz quente. mood="cool" esfria a imagem
+   pras eras marítimas/nórdicas; mood="sacred" dessatura e endurece o
+   contraste pro momento de maior tensão do capítulo (Apocalipse). ===== */
+.era-mood-cool img {
+  filter: saturate(0.82) hue-rotate(-10deg) brightness(0.95);
+}
+.era-mood-sacred img {
+  filter: saturate(0.68) contrast(1.1) brightness(0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
