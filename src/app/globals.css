@@ -8,6 +8,7 @@
   --color-fire-bright: #c22222;
   --color-gold: #c9a227; /* dourado antigo */
   --color-gold-soft: #e2c76a;
+  --color-lava: #ff5a1f; /* laranja de magma, só pro fundo incandescente */
   --color-stone: #8d8a84; /* cinza pedra */
   --color-bone: #f5f2ec; /* branco de texto */
 
@@ -23,8 +24,10 @@ html {
 body {
   font-family: var(--font-sans);
   background:
-    radial-gradient(80rem 50rem at 85% -10%, rgb(139 0 0 / 0.08), transparent 60%),
-    radial-gradient(60rem 40rem at 0% 100%, rgb(201 162 39 / 0.05), transparent 55%),
+    radial-gradient(65rem 42rem at 85% -8%, rgb(255 90 31 / 0.24), transparent 62%),
+    radial-gradient(75rem 48rem at -8% 105%, rgb(194 34 34 / 0.32), transparent 58%),
+    radial-gradient(55rem 38rem at 50% 100%, rgb(255 90 31 / 0.2), transparent 60%),
+    radial-gradient(40rem 30rem at 100% 55%, rgb(201 162 39 / 0.14), transparent 55%),
     var(--color-abyss);
   cursor: none; /* cursor custom */
 }
@@ -84,14 +87,31 @@ h3 {
   position: absolute;
   border-radius: 9999px;
   transform: translate(-50%, -50%);
-  filter: blur(70px);
-  background: radial-gradient(circle, rgb(194 34 34 / 0.5), rgb(201 162 39 / 0.14) 55%, transparent 75%);
+  filter: blur(56px);
+  background: radial-gradient(circle, rgb(255 90 31 / 0.75), rgb(194 34 34 / 0.4) 50%, transparent 72%);
   animation: ember-breathe var(--ember-dur, 10s) ease-in-out infinite;
   animation-delay: var(--ember-delay, 0s);
+  mix-blend-mode: screen;
 }
 @keyframes ember-breathe {
-  0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.85); }
-  50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.2); }
+  0%, 100% { opacity: 0.38; transform: translate(-50%, -50%) scale(0.85) translateY(0); }
+  50% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.35) translateY(-1.5rem); }
+}
+
+/* ===== Piso de lava (brilho fixo na base da tela, sempre visível) ===== */
+.lava-floor {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 46vh;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 100%, rgb(255 90 31 / 0.55), rgb(194 34 34 / 0.32) 45%, transparent 78%);
+  mix-blend-mode: screen;
+  animation: lava-floor-pulse 5s ease-in-out infinite;
+}
+@keyframes lava-floor-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
 }
 
 /* ===== Costura de lava entre capítulos ===== */

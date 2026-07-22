@@ -199,6 +199,7 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
           />
         ))}
       </div>
+      <div aria-hidden className="lava-floor" />
       <div data-progress aria-hidden className="scroll-progress" />
       <div ref={dot} aria-hidden className="cursor-dot" />
       <div ref={ring} aria-hidden className="cursor-ring" />
@@ -226,12 +227,13 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
 }
 
 const EMBERS = [
-  { top: "6%", left: "12%", size: "26rem", dur: "11s", delay: "0s" },
-  { top: "18%", left: "88%", size: "30rem", dur: "13s", delay: "3s" },
-  { top: "48%", left: "4%", size: "24rem", dur: "9s", delay: "5s" },
-  { top: "62%", left: "94%", size: "28rem", dur: "12s", delay: "1.5s" },
-  { top: "88%", left: "30%", size: "32rem", dur: "14s", delay: "6s" },
-  { top: "96%", left: "70%", size: "26rem", dur: "10s", delay: "4s" },
+  { top: "4%", left: "10%", size: "34rem", dur: "9s", delay: "0s" },
+  { top: "16%", left: "90%", size: "38rem", dur: "11s", delay: "2.5s" },
+  { top: "42%", left: "0%", size: "32rem", dur: "8s", delay: "4.5s" },
+  { top: "50%", left: "100%", size: "36rem", dur: "10s", delay: "1s" },
+  { top: "68%", left: "50%", size: "30rem", dur: "7.5s", delay: "3s" },
+  { top: "86%", left: "22%", size: "40rem", dur: "12s", delay: "5.5s" },
+  { top: "94%", left: "78%", size: "34rem", dur: "9.5s", delay: "2s" },
 ];
 
 const ASHES = [
