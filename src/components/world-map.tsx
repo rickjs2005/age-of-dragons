@@ -11,6 +11,7 @@ const LEGENDS = [
   { id: "china", x: 76, y: 42, region: "China", title: "Lóng, o senhor das chuvas", text: "Dragões celestiais controlam rios e tempestades há pelo menos 4 mil anos de iconografia. O de cinco garras era símbolo exclusivo do imperador." },
   { id: "japao", x: 84, y: 46, region: "Japão", title: "Ryū dos mares", text: "Serpentes aquáticas de três garras, guardiãs de palácios submersos — Hokusai as pintou até o último ano de vida." },
   { id: "europa", x: 48, y: 34, region: "Europa Medieval", title: "O guardião do tesouro", text: "Do wyrm de Beowulf a São Jorge: o dragão como prova máxima do herói — fogo, escamas e ouro roubado." },
+  { id: "biblia", x: 56, y: 40, region: "Patmos, Grécia", title: "O dragão do Apocalipse", text: "Sete cabeças, dez chifres: a visão de João transforma o dragão na 'antiga serpente' — Satanás, derrotado por Miguel e expulso do céu à Terra." },
   { id: "nordica", x: 46, y: 22, region: "Escandinávia", title: "Fáfnir e Níðhöggr", text: "O anão que virou dragão pela ganância e a serpente que rói as raízes do mundo — o Norte antigo sonhava grande." },
   { id: "maia", x: 18, y: 52, region: "Mesoamérica", title: "A serpente emplumada", text: "Quetzalcóatl/Kukulkán: dragão-deus de vento e sabedoria, esculpido em pirâmides que se alinham com o sol." },
   { id: "celta", x: 42, y: 30, region: "País de Gales", title: "Y Ddraig Goch", text: "O dragão vermelho que Merlin viu vencer o branco — profecia que virou bandeira de um povo." },

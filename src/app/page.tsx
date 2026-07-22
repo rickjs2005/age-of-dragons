@@ -8,6 +8,7 @@ const ERAS = [
   { id: "china", era: "Mitologia Chinesa", year: "~2700 a.C.", map: "Vale do Rio Amarelo", image: "/art/nove-dragoes.webp", caption: "Chen Rong · Nove Dragões · 1244", story: "O Lóng nasce como divindade das águas: comanda chuvas, rios e a sorte das colheitas. Império e dragão viram sinônimos — cinco garras, só o trono." },
   { id: "japao", era: "Mitologia Japonesa", year: "~700 d.C.", map: "Arquipélago Japonês", image: "/art/hokusai-fuji.webp", caption: "Hokusai · Dragão sobre o Fuji · 1849", story: "O Ryū herda a serpente chinesa e mergulha no mar: guardião de palácios submersos e das marés. Hokusai o pintou subindo o Fuji em fumaça — sua última obra." },
   { id: "europa", era: "Europa Medieval", year: "~700–1500", map: "Do Reno aos Cárpatos", image: "/art/sao-jorge.webp", caption: "Uccello · São Jorge e o Dragão · c. 1470", story: "O dragão vira o adversário definitivo: cospe fogo, guarda ouro e mede a alma dos heróis. Beowulf o enfrenta; São Jorge o converte em lenda de altar." },
+  { id: "biblia", era: "Tradição Bíblica", year: "~95 d.C.", map: "Patmos, Mar Egeu", image: "/art/dragao-biblia.webp", caption: "O grande dragão vermelho · Apocalipse 12 · arte conceitual", story: "Exilado em Patmos, João descreve um dragão vermelho de sete cabeças, dez chifres e sete coroas, cuja cauda arrasta um terço das estrelas do céu — 'a antiga serpente, chamada Diabo e Satanás'. Miguel e seus anjos o enfrentam e o expulsam do céu à Terra: o dragão deixa de ser bicho e vira a forma que o mal assume para, enfim, ser vencido." },
   { id: "nordica", era: "Mitologia Nórdica", year: "~800–1200", map: "Escandinávia", image: "/art/sigurd.webp", caption: "Sigurd mata Fáfnir · pedra de Ramsund (réplica)", story: "Fáfnir era um anão consumido pela ganância até virar dragão; Níðhöggr rói as raízes da árvore-mundo. No Norte, o dragão é o preço da cobiça." },
   { id: "maia", era: "Mesoamérica", year: "~100 d.C.", map: "Yucatán e Altiplano", image: "/art/quetzalcoatl.webp", caption: "Quetzalcóatl · Codex Telleriano-Remensis", story: "A serpente emplumada voa sem asas: deus do vento, de Vênus e do saber. Pirâmides inteiras foram alinhadas pro seu corpo de luz descer na equinócio." },
   { id: "celta", era: "Lendas Celtas", year: "~830 d.C.", map: "País de Gales", image: "/art/vortigern.webp", caption: "Os dragões de Vortigern · manuscrito medieval", story: "Sob a torre do rei, Merlin revela dois dragões em guerra: o vermelho vence o branco — e vira bandeira de um povo até hoje." },
@@ -64,13 +65,37 @@ const GALLERY = [
 
 /* ===================== MARCAS/SVG ===================== */
 
-function DragonGlyph({ color }: { color: string }) {
+const GLYPH_PATHS = [
+  // 0 · alado clássico (Smaug, Drogon...)
+  "M6 46 Q18 18 38 24 Q48 8 64 14 L74 4 L71 16 Q88 18 94 34 Q80 30 74 35 Q62 28 54 33 Q42 28 36 37 Q22 40 6 46 Z",
+  // 1 · veloz / fúria da noite (Toothless, Fatalis...)
+  "M4 40 Q24 44 34 30 Q30 16 44 10 Q40 22 50 24 Q66 10 84 16 Q72 22 70 30 Q88 28 96 38 Q78 34 68 40 Q52 32 40 38 Q22 32 4 40 Z",
+  // 2 · celestial / serpente (Shenron, Saphira...)
+  "M6 30 Q18 10 34 18 Q30 28 40 30 Q46 14 60 20 Q54 30 64 32 Q72 18 88 22 Q78 30 84 40 Q66 36 58 44 Q46 34 36 42 Q22 36 6 30 Z",
+  // 3 · devorador / chifrudo (Alduin, Tiamat...)
+  "M8 44 L20 16 L26 26 L36 10 L40 24 L52 6 L54 22 L68 12 Q64 24 74 26 Q86 22 96 32 Q80 30 76 38 Q60 30 50 36 Q34 28 26 38 Q16 34 8 44 Z",
+];
+const GLYPH_EYE: Array<[number, number]> = [
+  [72, 10],
+  [82, 18],
+  [85, 23],
+  [66, 14],
+];
+
+function DragonGlyph({ color, variant }: { color: string; variant: number }) {
+  const i = variant % GLYPH_PATHS.length;
+  const [ex, ey] = GLYPH_EYE[i];
   return (
-    <svg viewBox="0 0 100 60" aria-hidden className="h-16 w-full" fill="none">
-      <g stroke={color} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M8 46 Q20 20 38 26 Q46 12 60 16 L70 8 L68 18 Q84 20 92 34 Q80 32 74 36 Q64 30 56 34 Q44 30 38 38 Q24 40 8 46 Z" />
-        <path d="M60 16 Q58 22 62 24" strokeWidth="1.6" />
-        <circle cx="66" cy="15" r="1.6" fill={color} stroke="none" />
+    <svg
+      viewBox="0 0 100 52"
+      aria-hidden
+      className="h-20 w-full"
+      fill="none"
+      style={{ filter: `drop-shadow(0 0 10px ${color}66)` }}
+    >
+      <g stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d={GLYPH_PATHS[i]} />
+        <circle cx={ex} cy={ey} r="1.7" fill={color} stroke="none" />
       </g>
     </svg>
   );
@@ -112,6 +137,7 @@ export default function Home() {
 
         {/* ===== 1 · O nascimento dos dragões ===== */}
         <section id="eras" className="relative mx-auto max-w-6xl px-6 py-32 sm:px-10">
+          <div className="chapter-mark" data-reveal aria-hidden />
           <p className="eyebrow" data-reveal>
             Capítulo I · O nascimento
           </p>
@@ -158,6 +184,7 @@ export default function Home() {
         {/* ===== 2 · Dragões mais famosos da ficção ===== */}
         <section className="relative border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-7xl px-6 sm:px-10">
+            <div className="chapter-mark" data-reveal aria-hidden />
             <p className="eyebrow" data-reveal>
               Capítulo II · Os lendários
             </p>
@@ -165,9 +192,9 @@ export default function Home() {
               Os dez que a ficção coroou.
             </h2>
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-              {DRAGONS.map((dragon) => (
+              {DRAGONS.map((dragon, i) => (
                 <article key={dragon.name} data-tilt data-reveal className="card-3d rounded-2xl p-6">
-                  <DragonGlyph color={dragon.color} />
+                  <DragonGlyph color={dragon.color} variant={i} />
                   <h3 className="mt-4 font-display text-2xl font-bold text-bone">{dragon.name}</h3>
                   <p className="eyebrow mt-1">{dragon.universe}</p>
                   <dl className="mt-4 space-y-1 text-sm text-stone">
@@ -194,6 +221,7 @@ export default function Home() {
 
         {/* ===== 3 · Mapa das lendas ===== */}
         <section className="mx-auto max-w-6xl px-6 py-32 sm:px-10">
+          <div className="chapter-mark" data-reveal aria-hidden />
           <p className="eyebrow" data-reveal>
             Capítulo III · O mapa
           </p>
@@ -212,6 +240,7 @@ export default function Home() {
         <section id="timeline-pin" className="relative overflow-hidden border-y border-gold/10 bg-abyss-2/40">
           <div className="flex h-screen flex-col justify-center">
             <div className="mx-auto w-full max-w-6xl px-6 sm:px-10">
+              <div className="chapter-mark" aria-hidden />
               <p className="eyebrow">Capítulo IV · A travessia</p>
               <h2 className="mt-3 text-3xl font-bold text-bone sm:text-5xl">
                 Quatro mil anos em um voo.
@@ -240,6 +269,7 @@ export default function Home() {
 
         {/* ===== 5 · Galeria ===== */}
         <section className="mx-auto max-w-7xl px-6 py-32 sm:px-10">
+          <div className="chapter-mark" data-reveal aria-hidden />
           <p className="eyebrow" data-reveal>
             Capítulo V · A galeria
           </p>
@@ -261,6 +291,7 @@ export default function Home() {
         {/* ===== 6 · Comparação ===== */}
         <section className="border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-6xl px-6 sm:px-10">
+            <div className="chapter-mark" data-reveal aria-hidden />
             <p className="eyebrow" data-reveal>
               Capítulo VI · O confronto
             </p>
@@ -302,6 +333,7 @@ export default function Home() {
 
         {/* ===== 7 · Dragões no cinema ===== */}
         <section className="mx-auto max-w-4xl px-6 py-32 sm:px-10">
+          <div className="chapter-mark" data-reveal aria-hidden />
           <p className="eyebrow" data-reveal>
             Capítulo VII · As telas
           </p>
@@ -323,6 +355,7 @@ export default function Home() {
         {/* ===== 8 · Curiosidades ===== */}
         <section className="border-y border-gold/10 bg-abyss-2/50 py-32">
           <div className="mx-auto max-w-6xl px-6 sm:px-10">
+            <div className="chapter-mark" data-reveal aria-hidden />
             <p className="eyebrow" data-reveal>
               Capítulo VIII · Segredos
             </p>

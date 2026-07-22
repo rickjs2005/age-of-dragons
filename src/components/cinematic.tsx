@@ -50,12 +50,29 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
 
       let lenis: Lenis | null = null;
       if (!reduce && fine) {
-        lenis = new Lenis({ duration: 1.2 });
+        lenis = new Lenis({
+          duration: 1.3,
+          easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+          wheelMultiplier: 1,
+          touchMultiplier: 1.4,
+        });
         const raf = (time: number) => lenis!.raf(time * 1000);
         gsap.ticker.add(raf);
         lenis.on("scroll", ScrollTrigger.update);
       }
       if (reduce) return;
+
+      // Barra de progresso do documentário
+      const bar = el.querySelector<HTMLElement>("[data-progress]");
+      if (bar) {
+        gsap.set(bar, { scaleX: 0 });
+        ScrollTrigger.create({
+          start: 0,
+          end: () => document.documentElement.scrollHeight - window.innerHeight,
+          scrub: 0.3,
+          onUpdate: (self) => gsap.set(bar, { scaleX: self.progress }),
+        });
+      }
 
       // Revelações
       el.querySelectorAll<HTMLElement>("[data-reveal]").forEach((item) => {
@@ -167,6 +184,7 @@ export function Cinematic({ children }: { children: React.ReactNode }) {
 
   return (
     <div ref={root}>
+      <div data-progress aria-hidden className="scroll-progress" />
       <div ref={dot} aria-hidden className="cursor-dot" />
       <div ref={ring} aria-hidden className="cursor-ring" />
       <div key={flash} aria-hidden className={`lightning ${flash > 0 ? "flash" : ""}`} />
