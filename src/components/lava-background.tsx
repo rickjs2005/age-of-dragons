@@ -122,7 +122,7 @@ const LavaMaterialImpl = shaderMaterial(
       float lava = fbm(lavaUv);
 
       // terreno vulcânico: majoritariamente escuro, só respira perto do meio-tom
-      float base = smoothstep(-0.25, 0.95, lava) * 0.32;
+      float base = 0.05 + smoothstep(-0.25, 0.95, lava) * 0.29;
 
       // rachaduras: veios finos e brilhantes ao longo do contorno do ruído,
       // mais numerosos conforme o scroll avança
@@ -355,6 +355,7 @@ export function LavaBackground() {
   const [enabled, setEnabled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [dpr, setDpr] = useState(1);
+  const declinedOnce = useRef(false);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -373,10 +374,15 @@ export function LavaBackground() {
         gl={{ antialias: false, powerPreference: "high-performance", alpha: false }}
         camera={{ position: [0, 0, 5], fov: 55 }}
       >
-        {/* Se o FPS cair, reduz a resolução interna antes de cortar efeitos */}
+        {/* Se o FPS cair, reduz a resolução interna UMA vez (evita re-resize
+            repetido do canvas, que pode piscar em GPUs fracas) */}
         <PerformanceMonitor
           factor={1}
-          onDecline={() => setDpr((d) => Math.max(0.7, d - 0.25))}
+          onDecline={() => {
+            if (declinedOnce.current) return;
+            declinedOnce.current = true;
+            setDpr((d) => Math.max(0.75, d - 0.35));
+          }}
         />
         <Scene isMobile={isMobile} />
       </Canvas>

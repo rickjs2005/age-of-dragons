@@ -98,7 +98,7 @@ dt {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgb(4 3 3 / 0.42);
+  background: rgb(4 3 3 / 0.47);
   pointer-events: none;
 }
 
@@ -228,7 +228,7 @@ dt {
 .card-3d {
   transform-style: preserve-3d;
   will-change: transform;
-  background: linear-gradient(160deg, rgb(18 17 16 / 0.9), rgb(9 9 9 / 0.95));
+  background: linear-gradient(160deg, rgb(18 17 16 / 0.97), rgb(9 9 9 / 0.99));
   border: 1px solid rgb(201 162 39 / 0.16);
   backdrop-filter: blur(8px);
   position: relative;
