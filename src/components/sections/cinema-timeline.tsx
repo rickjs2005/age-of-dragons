@@ -4,11 +4,9 @@ import { ChapterPlate } from "@/components/chapter-plate";
 export function CinemaTimeline() {
   return (
     <section id="telas" className="mx-auto max-w-4xl px-6 pb-32 sm:px-10">
-      {/* Era "Capítulo VII" — numeração da versão de oito capítulos, que ficou
-          para trás no corte. */}
       <ChapterPlate
         src="/dragao/capitulos/telas.webp"
-        numeral="IV"
+        numeral="III"
         rotulo="As telas"
         titulo="O dragão vai ao cinema."
       />

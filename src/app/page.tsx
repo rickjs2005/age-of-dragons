@@ -1,6 +1,5 @@
 import { ChapterNav } from "@/components/chapter-nav";
 import { CinemaTimeline } from "@/components/sections/cinema-timeline";
-import { DragonGrid } from "@/components/sections/dragon-grid";
 import { EraSection } from "@/components/sections/era-section";
 import { FinalCta } from "@/components/sections/final-cta";
 import { WorldMapSection } from "@/components/sections/world-map-section";
@@ -25,7 +24,6 @@ export default function Home() {
 
           <ActOne />
           <EraSection />
-          <DragonGrid />
           <WorldMapSection />
           <CinemaTimeline />
           <FinalCta />

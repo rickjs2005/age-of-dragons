@@ -19,6 +19,12 @@
 
 html {
   scroll-behavior: auto;
+  /* As placas de capítulo sangram com `width: 100vw`, e 100vw INCLUI a largura
+     da barra de rolagem vertical — então elas ficam alguns pixels mais largas
+     que o espaço real e empurram a página pro lado. `clip` corta esse excesso
+     sem criar contexto de rolagem, que é o que `hidden` faria (e aí o
+     `position: sticky` do Ato I pararia de funcionar). */
+  overflow-x: clip;
 }
 
 body {

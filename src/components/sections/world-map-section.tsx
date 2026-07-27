@@ -6,7 +6,7 @@ export function WorldMapSection() {
     <section id="mapa" className="mx-auto max-w-6xl px-6 pb-32 sm:px-10">
       <ChapterPlate
         src="/dragao/capitulos/mapa.webp"
-        numeral="III"
+        numeral="II"
         rotulo="O mapa"
         titulo="Onde as lendas acordaram."
       />
