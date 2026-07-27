@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { DRAGONS } from "@/data/dragons";
-import { ChapterMark } from "@/components/icons/chapter-mark";
+import { ChapterPlate } from "@/components/chapter-plate";
 import { DragonGlyph } from "@/components/icons/dragon-glyph";
 
 /**
@@ -17,15 +17,14 @@ export function DragonGrid() {
   const panelId = useId();
 
   return (
-    <section id="lendarios" className="lava-seam relative border-y border-gold/10 bg-abyss-2/50 py-32">
+    <section id="lendarios" className="lava-seam relative border-y border-gold/10 bg-abyss-2/50 pb-32">
+      <ChapterPlate
+        src="/dragao/capitulos/lendarios.webp"
+        numeral="II"
+        rotulo="Os lendários"
+        titulo="Os dez que a ficção coroou."
+      />
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
-        <ChapterMark />
-        <p className="eyebrow" data-reveal>
-          Capítulo II · Os lendários
-        </p>
-        <h2 className="mt-4 text-4xl font-bold text-bone sm:text-6xl" data-chars>
-          Os dez que a ficção coroou.
-        </h2>
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {DRAGONS.map((dragon, i) => {
             const isSelected = selected?.name === dragon.name;

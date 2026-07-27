@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ERAS } from "@/data/eras";
-import { ChapterMark } from "@/components/icons/chapter-mark";
+import { ChapterPlate } from "@/components/chapter-plate";
 
 /**
  * Capítulo I. Cada era carrega uma "mood" (warm/cool/sacred) que muda a
@@ -11,15 +11,15 @@ import { ChapterMark } from "@/components/icons/chapter-mark";
  */
 export function EraSection() {
   return (
-    <section id="eras" className="relative mx-auto max-w-6xl px-6 py-32 sm:px-10">
-      <ChapterMark />
-      <p className="eyebrow" data-reveal>
-        Capítulo I · O nascimento
-      </p>
-      <h2 className="mt-4 max-w-3xl text-4xl font-bold text-bone sm:text-6xl" data-chars>
-        Antes da ficção, o mito.
-      </h2>
-      <p className="serif mt-6 max-w-2xl text-xl text-stone italic" data-reveal>
+    <section id="eras" className="relative mx-auto max-w-6xl px-6 pb-32 sm:px-10">
+      <ChapterPlate
+        src="/dragao/capitulos/nascimento.webp"
+        numeral="I"
+        rotulo="O nascimento"
+        titulo="Antes da ficção, o mito."
+        prioridade
+      />
+      <p className="serif mt-10 max-w-2xl text-xl text-stone italic" data-reveal>
         Seis civilizações, seis dragões — e nenhuma delas conversou entre si. O dragão nasceu
         sozinho, em toda parte.
       </p>

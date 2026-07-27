@@ -89,25 +89,75 @@ dt {
   20%, 22%, 55% { filter: drop-shadow(0 0 48px rgb(194 34 34 / 0.36)); }
 }
 
-/* ===== Fundo procedural WebGL (lava-background.tsx) ===== */
-.lava-canvas {
+/* ===== Palco WebGL único (scene/stage.tsx) =====
+   Diferente do fundo antigo, este fica em z-0 e não em z--1: o Ato I precisa
+   de WebGL NA FRENTE do fundo, com o texto por cima em z-10. */
+.stage-canvas {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
 }
-.lava-canvas canvas {
+.stage-canvas canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
 }
-/* véu escuro por cima do shader — garante contraste de texto em qualquer seção */
-.lava-canvas::after {
+
+/* Cartaz de 154 bytes embutido no HTML: pinta antes de qualquer JS rodar e sai
+   quando o Ato I desenha o primeiro quadro. Fica ACIMA do canvas — o canvas é
+   criado com `alpha: false`, então antes do primeiro quadro ele já é um
+   retângulo preto opaco e engoliria o cartaz se estivesse por cima. */
+.stage-poster {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  transition: opacity 420ms ease-out;
+}
+.stage-poster[data-saiu="true"] {
+  opacity: 0;
+}
+
+/* ===== Placa de abertura de capítulo (components/chapter-plate.tsx) =====
+   Sangra pela largura toda mesmo dentro de um container com max-width: é o
+   corte de escala que separa o texto do capítulo anterior. */
+.chapter-plate {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  height: clamp(20rem, 46vh, 30rem);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Escurece a base pro texto ter contraste garantido sobre qualquer imagem —
+   sem depender de a foto ser escura no lugar certo. */
+.chapter-plate::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgb(4 3 3 / 0.47);
+  z-index: 1;
+  background: linear-gradient(to top, rgb(9 9 9 / 0.96) 6%, rgb(9 9 9 / 0.55) 42%, transparent 78%);
   pointer-events: none;
+}
+.chapter-plate-conteudo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 1.5rem 2.5rem;
+  margin-inline: auto;
+  max-width: 72rem;
+}
+@media (min-width: 640px) {
+  .chapter-plate-conteudo {
+    padding-inline: 2.5rem;
+  }
 }
 
 /* ===== Costura de lava entre capítulos ===== */
@@ -154,16 +204,6 @@ dt {
   box-shadow: 0 0 12px rgb(201 162 39 / 0.6);
   z-index: 80;
   pointer-events: none;
-}
-
-/* Sinalizador de rolagem do hero */
-@keyframes cue-pulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-  50% { opacity: 1; transform: scaleY(1); }
-}
-.scroll-cue-line {
-  transform-origin: top;
-  animation: cue-pulse 1.8s ease-in-out infinite;
 }
 
 /* Marca ornamental de capítulo: núcleo em losango com asas de dragão abrindo */
@@ -307,18 +347,76 @@ dt {
   opacity: 1;
 }
 
-/* Asa da silhueta final batendo devagar */
-@keyframes wing-beat {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-7deg); }
+/* ===== Fecho: o convite pra passar adiante (components/share.tsx) ===== */
+.share-principal {
+  border-radius: 999px;
+  border: 1px solid rgb(201 162 39 / 0.55);
+  background: rgb(9 9 9 / 0.6);
+  padding: 0.95rem 2.4rem;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold-soft);
+  backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-.wing-l {
-  transform-origin: 92% 60%;
-  animation: wing-beat 7s ease-in-out infinite;
+.share-principal:hover {
+  background: var(--color-gold);
+  color: var(--color-abyss);
 }
-.wing-r {
-  transform-origin: 8% 60%;
-  animation: wing-beat 7s ease-in-out infinite reverse;
+
+.share-alvo {
+  display: grid;
+  place-items: center;
+  /* 44px é o mínimo confortável pra toque; o ícone dentro é menor. */
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgb(201 162 39 / 0.28);
+  background: rgb(18 17 16 / 0.72);
+  color: var(--color-stone);
+  transition: color 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+.share-alvo svg {
+  width: 19px;
+  height: 19px;
+}
+.share-alvo:hover {
+  color: var(--color-gold-soft);
+  border-color: rgb(201 162 39 / 0.7);
+  background: rgb(139 0 0 / 0.3);
+}
+
+/* Reserva a altura sempre: sem isso o aviso empurra o layout ao aparecer. */
+.share-aviso {
+  min-height: 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--color-gold-soft);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.share-aviso[data-visivel="true"] {
+  opacity: 1;
+}
+
+/* O dragão do fecho: mesmo bicho do topo, parado, emergindo do rodapé.
+   A máscara é obrigatória — sem ela aparece a borda reta da foto atravessando
+   a página, que é exatamente o que denuncia "imagem colada". */
+.fecho-dragao {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 34rem;
+  background-image: url("/dragao/fecho.webp");
+  background-size: cover;
+  background-position: center 34%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 58%, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000 58%, #000);
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 /* Pin do mapa */

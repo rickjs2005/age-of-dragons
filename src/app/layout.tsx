@@ -25,9 +25,16 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     locale: "pt_BR",
     type: "website",
-    images: [{ url: "/video/poster.webp", width: 1200, height: 692 }],
+    // 1200×630 é o recorte que WhatsApp, X e LinkedIn usam sem cortar nada.
+    // Sem `images` no twitter, alguns clientes caem no favicon.
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "O dragão emergindo da escuridão" }],
   },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/og.jpg"],
+  },
   robots: { index: true, follow: true },
   manifest: "/manifest.webmanifest",
 };

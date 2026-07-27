@@ -1,16 +1,17 @@
 import { CINEMA } from "@/data/cinema";
-import { ChapterMark } from "@/components/icons/chapter-mark";
+import { ChapterPlate } from "@/components/chapter-plate";
 
 export function CinemaTimeline() {
   return (
-    <section id="telas" className="mx-auto max-w-4xl px-6 py-32 sm:px-10">
-      <ChapterMark />
-      <p className="eyebrow" data-reveal>
-        Capítulo VII · As telas
-      </p>
-      <h2 className="mt-4 text-4xl font-bold text-bone sm:text-6xl" data-chars>
-        O dragão vai ao cinema.
-      </h2>
+    <section id="telas" className="mx-auto max-w-4xl px-6 pb-32 sm:px-10">
+      {/* Era "Capítulo VII" — numeração da versão de oito capítulos, que ficou
+          para trás no corte. */}
+      <ChapterPlate
+        src="/dragao/capitulos/telas.webp"
+        numeral="IV"
+        rotulo="As telas"
+        titulo="O dragão vai ao cinema."
+      />
       <div className="mt-14 rounded-2xl bg-abyss-2/75 px-8 py-10 sm:px-14 sm:py-12">
         <ol className="relative border-l border-fire/40 pl-10">
           {CINEMA.map((item) => (

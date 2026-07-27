@@ -1,17 +1,16 @@
 import { WorldMap } from "@/components/world-map";
-import { ChapterMark } from "@/components/icons/chapter-mark";
+import { ChapterPlate } from "@/components/chapter-plate";
 
 export function WorldMapSection() {
   return (
-    <section id="mapa" className="mx-auto max-w-6xl px-6 py-32 sm:px-10">
-      <ChapterMark />
-      <p className="eyebrow" data-reveal>
-        Capítulo III · O mapa
-      </p>
-      <h2 className="mt-4 text-4xl font-bold text-bone sm:text-6xl" data-chars>
-        Onde as lendas acordaram.
-      </h2>
-      <p className="serif mt-5 max-w-xl text-xl text-stone italic" data-reveal>
+    <section id="mapa" className="mx-auto max-w-6xl px-6 pb-32 sm:px-10">
+      <ChapterPlate
+        src="/dragao/capitulos/mapa.webp"
+        numeral="III"
+        rotulo="O mapa"
+        titulo="Onde as lendas acordaram."
+      />
+      <p className="serif mt-10 max-w-xl text-xl text-stone italic" data-reveal>
         Toque nos marcadores — cada brasa é um mito que sobreviveu ao tempo.
       </p>
       <div className="mt-12" data-reveal>

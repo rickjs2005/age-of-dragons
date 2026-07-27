@@ -10,6 +10,21 @@ export const EASE = {
   linear: "none",
 } as const;
 
+/**
+ * Scroll suave (Lenis). Mesma razão de existir: a curva da rolagem é o gesto
+ * mais repetido do site inteiro — calibra num lugar só.
+ */
+export const SCROLL = {
+  /** inércia da roda/trackpad, em segundos */
+  duration: 1.25,
+  /** expo.out — freia longo e macio, sem o repique de power4 */
+  easing: (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  /** salto entre capítulos: menu, "role para começar", voltar ao topo */
+  anchorDuration: 1.6,
+  /** cubic.out — chega no capítulo desacelerando, sem passar do ponto */
+  anchorEasing: (t: number) => 1 - Math.pow(1 - t, 3),
+} as const;
+
 export const DURATION = {
   heroVideo: 2.2,
   heroCascade: 1.1,
