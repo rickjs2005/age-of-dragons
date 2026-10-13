@@ -35,6 +35,7 @@ export default function Home() {
                 MilWeb
               </a>
               . Obras históricas em domínio público; personagens citados pertencem aos seus criadores.
+              Projeto fan-made, sem afiliação com os detentores das franquias mencionadas.
             </p>
           </footer>
         </main>
